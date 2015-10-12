@@ -6,8 +6,7 @@ body {
 }
 
 
-.board {
-
+#board {
 	text-align: center;
 	height: 700px;
 	width: 1200px;
@@ -33,5 +32,5 @@ body {
 }
 
 .card:hover {
-	background: gray;
+	background: radial-gradient(gray, white);
 }
