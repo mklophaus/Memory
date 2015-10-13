@@ -2,53 +2,76 @@
 console.log("CHECK");
 
 var foodArray = [
-"../assets/food/recipe_any.ong",
-"../assets/food/recipe_chinesefood.png",
-"../assets/food/recipe_deserts.png",
-"../assets/food/recipe_japanesefood.png",
-"../assets/food/recipe_maindishes.png",
-"../assets/food/recipe_noodles.png",
-"../assets/food/recipe_otherfood.png",
-"../assets/food/recipe_others.png",
-"../assets/food/recipe_rice.png",
-"../assets/food/recipe_snacks.png",
-"../assets/food/recipe_soup.png",
-"../assets/food/recipe_westernfood.png"
+{id: "one", url: "../assets/food/recipe_any.png"},
+{id: "two", url: "../assets/food/recipe_chinesefood.png"},
+{id: "three", url: "../assets/food/recipe_deserts.png"},
+{id: "four", url: "../assets/food/recipe_japanesefood.png"},
+{id: "five", url: "../assets/food/recipe_maindishes.png"},
+{id: "six", url: "../assets/food/recipe_noodles.png"},
+{id: "seven", url: "../assets/food/recipe_otherfood.png"},
+{id: "eight", url: "../assets/food/recipe_others.png"},
+{id: "nine", url: "../assets/food/recipe_rice.png"},
+{id: "ten", url: "../assets/food/recipe_snacks.png"},
+{id: "eleven", url: "../assets/food/recipe_soup.png"},
+{id: "twelve", url: "../assets/food/recipe_westernfood.png"}
  ];
 
-console.log(foodArray);
-
-var foodArray2 =[];
-
-//array of ids
 var boardArray = [];
+
+var x = 0;
+
+var foodArray2 = foodArray.slice();
 
 
 //populates ids into an array
-var populateIdArray = function() {
+/*var populateIdArray = function() {
 	$("#board").find("div").each(function(){boardArray.push(this.id);});
 	return boardArray;
 };
 populateIdArray();
 
+*/
+//apending
+//onCLick
 
-//gets random IDS
+
+$(".board").append("<img class='up', src='" + foodArray2[x].url + "'>");
 
 
-/* var layOutCards = function() {}
 
-}; */
 
-var randomImage = function(){
-	var x = foodArray[Math.floor(Math.random() * foodArray.length)];
-	return x; };
+//shuffles 2nd array of pictures
+var shuffleArray = function(){
+	var i = foodArray2.length, tempVal, randomIndex;
+
+	while(0 !== i){
+		randomIndex = Math.floor(Math.random() * i);
+		i -= 1;
+
+		tempVal = foodArray2[i];
+		foodArray2[i] = foodArray2[randomIndex];
+		foodArray2[randomIndex] = tempVal;
+	}
+
+	return foodArray2;
+}
+shuffleArray();
+
 
 $(document).ready(function()
 {	
-	function showImage(){
-		alert(this.id);
+	var backCard = document.createElement("img");
+	backCard.src = "..assets/back-red_3_1024x1024.png";
 
+	for(var b = 0; b<24; b++){
+		document.getElementById('#board').append(backCard);
+	}
+
+   	function showImage(){
+		alert(this.id);
+		alert(this.firstchild)
 		var target = e.target;
+
 		console.log(target);
 		document.target.src = foodArray[x];
 		//target image source
@@ -57,15 +80,11 @@ $(document).ready(function()
 
 	console.log("CHECK2");
 	var theBoard = document.querySelector("#board");
-	//theBoard.addEventListener("click", showImage, false);
-
-	$('#board div')
-
+	theBoard.addEventListener("click", showImage, false);
 
 });
 
 //var c
-
 
 /*//var playerTurn = true;
 $('.board').on('click', 'td', function(evt){
@@ -74,8 +93,6 @@ $('.board').on('click', 'td', function(evt){
 	if (cardPicked === "") 
 		return;
 	else 
-
-
 }
 
 	)*foodA

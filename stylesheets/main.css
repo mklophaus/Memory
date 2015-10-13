@@ -16,7 +16,7 @@ body {
 	border-radius: 20px;
 }
 
-.card {
+.down {
 	background: url(../assets/back-red_3_1024x1024.png) repeat-x;
 	height: 140px;
 	width: 180px;
@@ -26,11 +26,39 @@ body {
 	display: inline-block;
 	position: relative;
 	text-align: center;
-    background: radial-gradient(red, white);
+   /* background: radial-gradient(red, white); */
     border-radius: 20px;
-
 }
 
-.card:hover {
+.down :hover {
 	background: radial-gradient(gray, white);
 }
+
+/* HTML ///////
+<div class="down" id="card1"></div>
+	<div class="down" id="card2"></div>
+	<div class="down" id="card3"></div>
+	<div class="down" id="card4"></div>
+	<div class="down" id="card5"></div>
+	<div class="down" id="card6"></div>
+	<div class="down" id="card7"></div>
+	<div class="down" id="card8"></div>
+	<div class="down" id="card9"></div>
+	<div class="down" id="card10"></div>
+	<div class="down" id="card11"></div>
+	<div class="down" id="card12"></div>
+	<div class="down" id="card13"></div>
+	<div class="down" id="card14"></div>
+	<div class="down" id="card15"></div>
+	<div class="down" id="card16"></div>
+	<div class="down" id="card17"></div>
+	<div class="down" id="card18"></div>
+	<div class="down" id="card19"></div>
+	<div class="down" id="card20"></div>
+	<div class="down" id="card21"></div>
+	<div class="down" id="card22"></div>
+	<div class="down" id="card23"></div>
+	<div class="down" id="card24"></div>
+
+	*/
+
