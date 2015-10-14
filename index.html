@@ -4,11 +4,40 @@
 	<meta charset="UTF-8">
 	<title>Document</title>
 	<link rel="stylesheet" href="stylesheets/main.css">
+	
+	<link href='https://fonts.googleapis.com/css?family=Oswald' rel='stylesheet' type='text/css'>
 
 	<script src="https://code.jquery.com/jquery-2.1.3.js"></script>
 
+	<h1>The Memory Game</h1>
+
 </head>
 <body>
+
+<h2>Options:</h2>
+
+<div class="dropdown1">
+<label>Players:</label>
+<select class="choosePlayers" id="players">
+<option value="1">One Player</option>
+<option value="2">Two Players</option>
+</select>
+</div>
+
+<div class="dropdown2">
+<label>Category:</label>
+<select class="chooseCategory" id="category">
+<option value="1">Food</option>
+<option value="2">Animals</option>
+</select>
+
+</div>
+
+
+<h3>Messages:</h3>
+<div id ="messageBox">One Player Game
+</div>
+
 
 <div class ="board">
 	<img src="assets/back-red_3_1024x1024.png" class="down" id="c1">
@@ -37,6 +66,8 @@
 	<img src="assets/back-red_3_1024x1024.png" class="down" id="c24">
 
 </div>
+
+<script src="javascripts/data.js"></script>
 
 <script src="javascripts/main.js"></script>
 

@@ -1,102 +1,79 @@
-
-var foodArray = [
-{id: "one", url: "assets/food/recipe_any.png"},
-{id: "two", url: "assets/food/recipe_chinesefood.png"},
-{id: "three", url: "assets/food/recipe_deserts.png"},
-{id: "four", url: "assets/food/recipe_japanesefood.png"},
-{id: "five", url: "assets/food/recipe_maindishes.png"},
-{id: "six", url: "assets/food/recipe_noodles.png"},
-{id: "seven", url: "assets/food/recipe_otherfood.png"},
-{id: "eight", url: "assets/food/recipe_others.png"},
-{id: "nine", url: "assets/food/recipe_rice.png"},
-{id: "ten", url: "assets/food/recipe_snacks.png"},
-{id: "eleven", url: "assets/food/recipe_soup.png"},
-{id: "twelve", url: "assets/food/recipe_westernfood.png"},
-{id: "one", url: "assets/food/recipe_any.png"},
-{id: "two", url: "assets/food/recipe_chinesefood.png"},
-{id: "three", url: "assets/food/recipe_deserts.png"},
-{id: "four", url: "assets/food/recipe_japanesefood.png"},
-{id: "five", url: "assets/food/recipe_maindishes.png"},
-{id: "six", url: "assets/food/recipe_noodles.png"},
-{id: "seven", url: "assets/food/recipe_otherfood.png"},
-{id: "eight", url: "assets/food/recipe_others.png"},
-{id: "nine", url: "assets/food/recipe_rice.png"},
-{id: "ten", url: "assets/food/recipe_snacks.png"},
-{id: "eleven", url: "assets/food/recipe_soup.png"},
-{id: "twelve", url: "assets/food/recipe_westernfood.png"}
- ];
-
 var x = 0;
 var clickCount = 0;
-var firstPic;
-var secondPic;
-
+var firstPic, secondPic;
 var picClicked;
 var nextClicked
 var num;
 var matchNum =0;
+var gameArray = foodArray.slice();
+var numPlayers = 1;
+var playerTurn = true;
+var p1Score=0; 
+var p2Score=0;
+
 
 //shuffles 2nd array of pictures
 var shuffleArray = function(){
-	var i = foodArray.length, tempVal, randomIndex;
+	var i = gameArray.length, tempVal, randomIndex;
 
 	while(0 !== i){
 		randomIndex = Math.floor(Math.random() * i);
 		i -= 1;
-
-		tempVal = foodArray[i];
-		foodArray[i] = foodArray[randomIndex];
-		foodArray[randomIndex] = tempVal;
+		tempVal = gameArray[i];
+		gameArray[i] = gameArray[randomIndex];
+		gameArray[randomIndex] = tempVal;
 	}
-
-	return foodArray;
+	return gameArray;
 }
 shuffleArray();
 
-////FIGURE OUT HOW TO GET IMG ID and THEN PARSEINT.....
 
 
-$(document).ready(function()
-{	
+/////SETS SCORES to 0 ON PLAYER CHANGE////////
+	var resetScore = function(){
+
+		if(numPlayers == 1){
+			p1Score = 0;
+		}
+		else if (numPlayers == 2){
+			var p1Score =0;
+			var p2Score =0;	
+		}
+	};
+
+
+
+	////////CHECK IF MATCH////////
 	var checkifMatch =function(){ 
 		if (clickCount == 1){
-			firstPic = foodArray[num].id;
+			firstPic = gameArray[num].id;
 			return false;
 		}
 		else if (clickCount == 2){
-			secondPic = foodArray[num].id;
+			secondPic = gameArray[num].id;
 
 			if(firstPic == secondPic){
-				matchNum +=1;
-				if(matchNum == 12){
-					console.log("YOU WIN!");
-				}
 				return true;
 			}
 			else if(firstPic !== secondPic){
-
 				return false;
 			}
 		}
-
 	};
 
-//$(.board img).on('click'l '.down', function)event
-	//Show image on click
-	//$(".board img").click(function(event){
-	  $(".board .down").on('click', function(event){
 
+
+$(document).ready(function()
+{
+	//////////CHECK NUM CLICKS////////////
+	var checkClickCount = function(){
 		if (clickCount ==0){
 			picClicked = $(event.target);
 			var thisId = picClicked.attr('id');
 			num = thisId.match(/\d+/);
-			console.log(num);
 			num = num -1;
-			picClicked.attr('src', foodArray[num].url);
-
+			picClicked.attr('src', gameArray[num].url);
 			picClicked.addClass("front");
-
-			//picClicked.attr('class', "up");
 		}
 		
 		else if (clickCount ==1){
@@ -104,21 +81,43 @@ $(document).ready(function()
 			var thisId = nextClicked.attr('id');
 			num = thisId.match(/\d+/);
 			num = num -1;
-			nextClicked.attr('src', foodArray[num].url);
+			nextClicked.attr('src', gameArray[num].url);
 			nextClicked.addClass("front");
-			//to change class to up....
-			//nextClicked.attr('class', "up");
+			/*$(".board .down").on('click', function(event){
+				event.preventDefault();
+			}); */
 		} 
 
 		clickCount+=1;
+	};
 
-		/*var flipBack = function(){
-			$(event.target).attr('src', "assets/back-red_3_1024x1024.png");
-		};*/ 
-			
+
+	///////Show image on click//////
+	  $(".board .down").on('click', function(event){
+
+		checkClickCount();
+							
 		if (checkifMatch() == true){
-			clickCount = 0;
-		}	
+			if(numPlayers ==1){
+				p1Score +=1;
+				$('#messageBox').text('Score: ' + p1Score);
+			}
+
+			else if(numPlayers == 2){
+				if(playerTurn){
+					p1Score +=1;
+					$('#messageBox').text('Player 1 Score: ' + p1Score);
+				}
+				else if(!playerTurn){
+					p2Score +=1;
+					$('#messageBox').text('Player 1 Score: ' + p2Score);
+				}
+
+				playerTurn = !playerTurn;
+			}
+			clickCount =0;
+		}
+
 		else if((checkifMatch() == false) && (clickCount == 2)){
 			
 			setTimeout(function(){
@@ -126,33 +125,43 @@ $(document).ready(function()
 				picClicked.attr('src', "assets/back-red_3_1024x1024.png");
 				nextClicked.removeClass("front");
 				nextClicked.attr('src', "assets/back-red_3_1024x1024.png");
-				}, 1000);
-
-			clickCount = 0;
+				}, 800);
+			clickCount =0;
 		}
 
 	});
 
+
+
+	//////////////CHANGING CATEGOORY//////////
+	$("#category").change(function(){
+		if ($("#category option:selected").text() === "Food"){
+			gameArray = foodArray.slice();
+			shuffleArray();
+			}
+		else if ($("#category option:selected").text() === "Animals"){
+			gameArray = animalArray.slice();
+			shuffleArray();
+			}
+	});
+
+
+
+	///////////CHANGING 1PLAYER/2PLAYER//////////////
+	$("#players").change(function(){
+		if ($("#players option:selected").text() === "One Player"){
+			numPlayers =1;
+			$('#messageBox').text('One Player Game');
+			resetScore();
+		}
+
+		else if ($("#players option:selected").text() === "Two Players"){
+			numPlayers =2;
+			$('#messageBox').text('Two Player Game');
+			resetScore();
+		}
+	});
+
 });
-
-//populate array with picture
-
-
-//populate cards with pictures from array
-
-//add event listener for whole board that 
-//recognizes when cell is clicked and sends out random picture
-
-
-
-//create event that recognizes when two cards are chosen
-
-//create event 
-
-
-
-
-
-
 
 
