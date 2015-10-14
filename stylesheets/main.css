@@ -3,60 +3,47 @@ body {
 	height:750px;
 	text-align: center;
 	margin: 30px auto;
+	background-color: #98AFC7;
 }
 
 
 .board {
 	text-align: center;
-	height: 600px;
-	width: 1000px;
+	height: 540px;
+	width: 800px;
 	border: solid black;
 	margin: 0 auto;
 	background-color: gray;
 	border-radius: 20px;
-
 }
 
 img {
-	height: 120px;
-	width: 140px;
+	height: 100px;
+	width: 110px;
 	padding: 1px 1px 1px 1px;
 	border: solid black;
-	margin-top: 15px;
+	margin-top: 20px;
 	display: inline-block;
 	position: relative;
 	text-align: center;
     border-radius: 10px;
 }
 
+.front {
+	height: 100px;
+	width: 110px;
+	padding: 1px 1px 1px 1px;
+	border: solid black;
+	margin-top: 20px;
+	display: inline-block;
+	position: relative;
+	text-align: center;
+    border-radius: 10px;
+   /* -webkit-backface-visibility: hidden; */
+   /* backface-visibility: hidden; */
+    -webkit-transition: -webkit-transform 0.5s;
+    transition: transform 0.5s;
+	-webkit-transform: rotateY(-180deg);
+    transform: rotateY(-180deg);
 
-/* HTML ///////
-<div class="down" id="card1"></div>
-	<div class="down" id="card2"></div>
-	<div class="down" id="card3"></div>
-	<div class="down" id="card4"></div>
-	<div class="down" id="card5"></div>
-	<div class="down" id="card6"></div>
-	<div class="down" id="card7"></div>
-	<div class="down" id="card8"></div>
-	<div class="down" id="card9"></div>
-	<div class="down" id="card10"></div>
-	<div class="down" id="card11"></div>
-	<div class="down" id="card12"></div>
-	<div class="down" id="card13"></div>
-	<div class="down" id="card14"></div>
-	<div class="down" id="card15"></div>
-	<div class="down" id="card16"></div>
-	<div class="down" id="card17"></div>
-	<div class="down" id="card18"></div>
-	<div class="down" id="card19"></div>
-	<div class="down" id="card20"></div>
-	<div class="down" id="card21"></div>
-	<div class="down" id="card22"></div>
-	<div class="down" id="card23"></div>
-	<div class="down" id="card24"></div>
-
-	*/
-
-
-
+}

@@ -33,6 +33,8 @@ var secondPic;
 
 var picClicked;
 var nextClicked
+var num;
+var matchNum =0;
 
 //shuffles 2nd array of pictures
 var shuffleArray = function(){
@@ -58,17 +60,21 @@ $(document).ready(function()
 {	
 	var checkifMatch =function(){ 
 		if (clickCount == 1){
-			firstPic = foodArray[x].id;
+			firstPic = foodArray[num].id;
 			return false;
 		}
 		else if (clickCount == 2){
-			secondPic = foodArray[x].id;
+			secondPic = foodArray[num].id;
 
 			if(firstPic == secondPic){
-				console.log("MATCH!");
+				matchNum +=1;
+				if(matchNum == 12){
+					console.log("YOU WIN!");
+				}
 				return true;
 			}
 			else if(firstPic !== secondPic){
+
 				return false;
 			}
 		}
@@ -80,30 +86,31 @@ $(document).ready(function()
 	//$(".board img").click(function(event){
 	  $(".board .down").on('click', function(event){
 
-
 		if (clickCount ==0){
 			picClicked = $(event.target);
-			var thisID = picClicked.attr('id');
-			////////pull items out of this id to send to array
-			alert(thisID);
+			var thisId = picClicked.attr('id');
+			num = thisId.match(/\d+/);
+			console.log(num);
+			num = num -1;
+			picClicked.attr('src', foodArray[num].url);
 
-			console.log(thisID);
-			picClicked.attr('src', foodArray[x].url);
-			//to change class to up....
+			picClicked.addClass("front");
+
 			//picClicked.attr('class', "up");
 		}
 		
 		else if (clickCount ==1){
 			nextClicked = $(event.target);
-			nextClicked.attr('src', foodArray[x].url);
+			var thisId = nextClicked.attr('id');
+			num = thisId.match(/\d+/);
+			num = num -1;
+			nextClicked.attr('src', foodArray[num].url);
+			nextClicked.addClass("front");
 			//to change class to up....
 			//nextClicked.attr('class', "up");
 		} 
 
-
-		console.log(foodArray[x].url);
 		clickCount+=1;
-		console.log(clickCount);
 
 		/*var flipBack = function(){
 			$(event.target).attr('src', "assets/back-red_3_1024x1024.png");
@@ -115,7 +122,9 @@ $(document).ready(function()
 		else if((checkifMatch() == false) && (clickCount == 2)){
 			
 			setTimeout(function(){
+				picClicked.removeClass("front");
 				picClicked.attr('src', "assets/back-red_3_1024x1024.png");
+				nextClicked.removeClass("front");
 				nextClicked.attr('src', "assets/back-red_3_1024x1024.png");
 				}, 1000);
 
