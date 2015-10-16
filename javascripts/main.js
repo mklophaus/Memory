@@ -77,7 +77,7 @@ var animateWinner = function(){
 
 ////Checks for winner in 1P/2P mode/////
 var handleWinner = function(){
-	if(p1Score == 2){
+	if(p1Score == 12){
 		$('#messageBox').text('You Win!');
 	    animateWinner();
 	}
