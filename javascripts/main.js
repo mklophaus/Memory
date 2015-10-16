@@ -1,10 +1,6 @@
-var x = 0;
 var clickCount = 0;
 var firstPic, secondPic;
-var picClicked;
-var nextClicked
-var num;
-var matchNum =0;
+var picClicked, nextClicked, currentClicked, num;
 var gameArray = foodArray.slice();
 var numPlayers = 1;
 var playerTurn = true;
@@ -12,7 +8,7 @@ var p1Score=0;
 var p2Score=0;
 
 
-//shuffles 2nd array of pictures
+//shuffles array of pictures
 var shuffleArray = function(){
 	var i = gameArray.length, tempVal, randomIndex;
 
@@ -31,64 +27,78 @@ shuffleArray();
 
 /////SETS SCORES to 0 ON PLAYER CHANGE////////
 var resetScore = function(){
-
 	if(numPlayers == 1){
 		p1Score = 0;
 	}
 	else if (numPlayers == 2){
-		var p1Score =0;
-		var p2Score =0;	
+		p1Score =0;
+		p2Score =0;	
 	}	
 };
 
-	////////CHECK IF MATCH////////
-	var checkifMatch =function(){ 
-		if (clickCount == 1){
-			firstPic = gameArray[num].id;
+
+
+////////CHECK IF MATCH////////
+var checkifMatch =function(){ 
+	if (clickCount == 1){
+		firstPic = gameArray[num].id;
+		return false;
+	}
+	else if (clickCount == 2){
+		secondPic = gameArray[num].id;
+
+		if(firstPic == secondPic){
+			return true;
+		}
+		else if(firstPic !== secondPic){
 			return false;
 		}
-		else if (clickCount == 2){
-			secondPic = gameArray[num].id;
-
-			if(firstPic == secondPic){
-				return true;
-
-			}
-			else if(firstPic !== secondPic){
-				return false;
-			}
-		}
-	};
-
-	var checkWinner = function(){
-		if(p1Score == 2){
-			$('#messageBox').text('You Win!');
-		//Makes cards flash colors
-		for (var i = 2500; i >= 1; i--){
-
-			$('.front').fadeOut(400).fadeIn(400);
-			$('.flash').fadeOut(400).fadeIn(400);
-		}          
 	}
-	else if((p1Score + p2Score ==12) && (p1Score>p2Score)){
-		$('#messageBox').text('Player 1 Wins!');
-	}
-	else if((p1Score + p2Score ==12) && (p2Score>p1Score)){
-		$('#messageBox').text('Player 2 Wins!');
-	}
-
 };
 
 
 
-//////////CHECK NUM CLICKS////////////
-var checkClickCount = function(){
-	var currentClicked;
-	console.log(clickCount)
-	if(clickCount >= 2){
+///Animates document when win occurs/////
+var animateWinner = function(){
+	//Cards flash
+	for (var i = 2500; i >= 1; i--){
+		$('.front').fadeOut(400).fadeIn(400);
+		$('.flash').fadeOut(400).fadeIn(400);
+	}    
+
+	setTimeout(function(){
+		var winPrompt = confirm("Winner! Would you like to play again?");}, 2700);
+	if(winPrompt){
+		location.reload();
+	}
+};
+
+
+
+////Checks for winner in 1P/2P mode/////
+var handleWinner = function(){
+	if(p1Score == 2){
+		$('#messageBox').text('You Win!');
+	    animateWinner();
+	}
+	else if((p1Score + p2Score ==12) && (p1Score>p2Score)){
+		$('#messageBox').text('Player 1 Wins!');
+		animateWinner();
+	}
+	else if((p1Score + p2Score ==12) && (p2Score>p1Score)){
+		$('#messageBox').text('Player 2 Wins!');
+		animateWinner();
+	}
+};
+
+
+
+/////////PICKS CARDS AND CHECKS CLICK////////////
+var pickCards = function(){
+	
+	if((clickCount >= 2)){
 		return false;
 	}
-
 	else if (clickCount ==0){
 		picClicked = $(event.target);
 		currentClicked = picClicked;
@@ -98,53 +108,87 @@ var checkClickCount = function(){
 		nextClicked = $(event.target);
 		currentClicked = nextClicked;
 	} 
-	var thisId = currentClicked.attr('id');
-	num = thisId.match(/\d+/);
-	num = num -1;
+};
+
+
+
+//////FLIPS CARDS////////////
+var flipCards = function(){
+	if ($(event.target).is(".front")){
+		return false;
+	}
+	num = currentClicked.attr('id');
 	currentClicked.attr('src', gameArray[num].url);
 	currentClicked.addClass("front");
 	clickCount+=1;
 };
 
 
-///////Show image on click//////
+
+////INCREMENTS SCORE WHEN MATCH OCCURS///////
+var renderScore = function(){
+	if(numPlayers == 1){
+		p1Score +=1;
+		$('#msg').text('Score: ' + p1Score);
+		handleWinner();
+	}
+	else if(numPlayers == 2){
+		if(playerTurn){
+			p1Score +=1;
+			$('#msg').text('Player 1 Score: ' + p1Score);
+			handleWinner();
+		}
+		else if(!playerTurn){
+			p2Score +=1;
+			$('#msg').text('Player 2 Score: ' + p2Score);
+			handleWinner();
+		}
+
+	}
+};
+
+
+
+//Renders player Change/////
+var changePlayer = function(){
+	playerTurn = !playerTurn;
+	if(numPlayers == 1){
+		return false;
+	}
+	else if (playerTurn){
+		$('#turn').text('Player 1 Turn');
+	}
+	else if (!playerTurn){
+		$('#turn').text('Player 2 Turn');
+	}
+};
+
+
+
+///Board Event Listener/////
 $(".board .down").on('click', function(event){
 
-	checkClickCount();
+	pickCards();
+	flipCards();
 
-	if (checkifMatch() == true){
-		if(numPlayers ==1){
-			p1Score +=1;
-			$('#messageBox').text('Score: ' + p1Score);
-			checkWinner();
-		}
-
-		else if(numPlayers == 2){
-			if(playerTurn){
-				p1Score +=1;
-				$('#messageBox').text('Player 1 Score: ' + p1Score);
-				checkWinner();
-			}
-			else if(!playerTurn){
-				p2Score +=1;
-				$('#messageBox').text('Player 2 Score: ' + p2Score);
-				checkWinner();
-			}
-
-			playerTurn = !playerTurn;
-		}
+	if (checkifMatch()){
+		renderScore();
+		changePlayer();
 		clickCount =0;
 	}
 
-	else if((checkifMatch() == false) && (clickCount == 2)){
+	else if((!checkifMatch()) && (clickCount == 2)){
 		
+		//CHANGES THE WRONG PAIR BACK TO THEIR BACKSIDE
 		setTimeout(function(){
 			picClicked.removeClass("front");
 			picClicked.attr('src', "assets/back-red_3_1024x1024.png");
 			nextClicked.removeClass("front");
 			nextClicked.attr('src', "assets/back-red_3_1024x1024.png");
+			changePlayer();
 			clickCount =0;
 		}, 800);
+
 	}
 
 });
@@ -161,6 +205,10 @@ $("#category").change(function(){
 		gameArray = animalArray.slice();
 		shuffleArray();
 	}
+	else if ($("#category option:selected").text() === "Things"){
+		gameArray = thingsArray.slice();
+		shuffleArray();
+	}
 });
 
 
@@ -169,19 +217,22 @@ $("#category").change(function(){
 $("#players").change(function(){
 	if ($("#players option:selected").text() === "One Player"){
 		numPlayers =1;
-		$('#messageBox').text('One Player Game');
+		$('#msg').text('One Player Game');
 		resetScore();
 	}
 
 	else if ($("#players option:selected").text() === "Two Players"){
 		numPlayers =2;
-		$('#messageBox').text('Two Player Game');
+		$('#msg').text('Two Player Game');
 		resetScore();
 	}
 });
 
 
 
-
+/////Resets whole game//////
+$("#reset").on('click', function(){
+	location.reload();
+});
 
 

@@ -52,3 +52,31 @@ var animalArray = [
 {id: "eleven", url: "assets/animals/snake.png"},
 {id: "twelve", url: "assets/animals/wolf.png"}
  ];
+
+
+var thingsArray = [
+{id: "one", url: "assets/Things/Bicycle.png"},
+{id: "two", url: "assets/Things/Book.png"},
+{id: "three", url: "assets/Things/Glasses.png"},
+{id: "four", url: "assets/Things/Guitar.png"},
+{id: "five", url: "assets/Things/Key.png"},
+{id: "six", url: "assets/Things/Light-Bulb.png"},
+{id: "seven", url: "assets/Things/Money.png"},
+{id: "eight", url: "assets/Things/Pencils.png"},
+{id: "nine", url: "assets/Things/Ship.png"},
+{id: "ten", url: "assets/Things/Sword.png"},
+{id: "eleven", url: "assets/Things/Television.png"},
+{id: "twelve", url: "assets/Things/Wrench.png"},
+{id: "one", url: "assets/Things/Bicycle.png"},
+{id: "two", url: "assets/Things/Book.png"},
+{id: "three", url: "assets/Things/Glasses.png"},
+{id: "four", url: "assets/Things/Guitar.png"},
+{id: "five", url: "assets/Things/Key.png"},
+{id: "six", url: "assets/Things/Light-Bulb.png"},
+{id: "seven", url: "assets/Things/Money.png"},
+{id: "eight", url: "assets/Things/Pencils.png"},
+{id: "nine", url: "assets/Things/Ship.png"},
+{id: "ten", url: "assets/Things/Sword.png"},
+{id: "eleven", url: "assets/Things/Television.png"},
+{id: "twelve", url: "assets/Things/Wrench.png"}
+ ];
